@@ -1,0 +1,806 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix ex: <http://example.com/ns#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix map: <http://sistemas.sefaz.ma.gov.br/maps/RFB/2024-07-22> .
+@prefix rfb_resource: <http://www.cnpj.data.br/RFB/resource/> .
+@prefix cnpj: <http://www.cnpj.data.br/ontology/> .
+
+<map:Organization> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_EMPRESA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Empresa/{CNPJ_RAIZ}";
+        rr:class foaf:Organization, cnpj:Empresa;
+        
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate cnpj:cnpj, cnpj:cnpj_raiz;
+		rr:objectMap [
+			rr:column "CNPJ_RAIZ";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:razao_social, rdfs:label;
+		rr:objectMap [
+			rr:column "RAZAO_SOCIAL";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_natureza_legal;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Natureza_Legal/{ID_NATUREZA_LEGAL}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_matriz, cnpj:tem_matriz;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Estabelecimento/{ID_ESTABELECIMENTO_MATRIZ}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:opcao_simples;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Opcao_Simples/{ID_OPCAO_SIMPLES}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:valor_capital_social;
+		rr:objectMap [
+			rr:column "CAPITAL_SOCIAL";
+			rr:datatype xsd:double
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_porte;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Porte/{TEM_PORTE}";
+		];
+	].
+
+<map:Establishment> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_ESTABELECIMENTO""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Estabelecimento/{CNPJ}";
+		rr:class cnpj:Estabelecimento, cnpj:Estabelecimento;
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:cnpj_completo, cnpj:cnpj;
+		rr:objectMap [
+			rr:column "CNPJ";
+			rr:datatype xsd:string
+            
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:razao_social, rdfs:label;
+		rr:objectMap [
+			rr:column "razao_social";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:nome_fantasia;
+		rr:objectMap [
+			rr:column "NOME_FANTASIA";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_situacao_cadastral;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Situacao_Cadastral/{ID_SITUACAO}";
+		];
+   ];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:data_inicio_atividade;
+		rr:objectMap [
+			rr:column "DATA_INICIO_ATIV";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_atividade_economica_principal, cnpj:tem_atividade_economica;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Atividade_Economica/{ID_ATIVIDADE_ECONOMICA}"
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_endereco;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Endereco/{ID_ENDERECO}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_tipo_estabelecimento;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Tipo_Estabelecimento/{TIPO_ESTABELECIMENTO}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate vcard:email;
+		rr:objectMap [
+			rr:column "EMAIL";
+			rr:datatype xsd:anyURI
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:telefone, cnpj:numero_contato;
+		rr:objectMap [
+			rr:column "TELEFONE_1";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:telefone, cnpj:numero_contato;
+		rr:objectMap [
+			rr:column "TELEFONE_2";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:fax, cnpj:numero_contato;
+		rr:objectMap [
+			rr:column "FAX";
+			rr:datatype xsd:string
+		];
+	].
+
+
+<map:Sociedade_Fisica> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_SOCIEDADE_COM_PESSOA_FISICA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Sociedade_PF/{ID_SOCIEDADE}";
+			rr:class cnpj:Sociedade, cnpj:Sociedade_PF, cnpj:Sociedade_RFB, cnpj:Sociedade_PF;
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:inicio_participacao;
+		rr:objectMap [
+			rr:column "DATA_INICIO_SOCIEDADE";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ROTULO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_qualificacao_socio;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_QUALIFICACAO_SOCIO}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_socio ;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Pessoa/{ID_SOCIO}";
+		];
+	].
+
+<map:Partnership_jID> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_SOCIEDADE_COM_HOLDING""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Sociedade_PJ/{ID_SOCIEDADE}";
+			rr:class cnpj:Sociedade, cnpj:Sociedade_PJ, cnpj:Sociedade_RFB, cnpj:Sociedade_PJ;
+			
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_socio ;
+		rr:objectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Empresa/{ID_SOCIO}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_SOCIEDADE";
+			rr:datatype xsd:string
+			
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:data_entrada_participacao;
+		rr:objectMap [
+			rr:column "DATA_INICIO_SOCIEDADE";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_representante;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Pessoa/{ID_REPRESENTANTE}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:qualificacao_socio;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_QUALIFICACAO_SOCIO}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:qualificacao_do_responsavel;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_QUALIFICACAO_REPRESENTANTE}";
+		];
+	].
+
+<map:Partnership_estrang> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_SOCIEDADE_COM_ESTRANGEIRO""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Sociedade_Estrangeiro/{ID_SOCIEDADE}";
+			rr:class cnpj:Sociedade, cnpj:Sociedade_Estrangeiro, cnpj:Sociedade;
+			
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_socio ;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Agent/{ID_SOCIO}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_SOCIEDADE";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:data_entrada_participacao;
+		rr:objectMap [
+			rr:column "DATA_INICIO_SOCIEDADE";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_representante;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Pessoa/{ID_REPRESENTANTE}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:qualificacao_do_responsavel;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_QUALIFICACAO_REPRESENTANTE}";
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:qualificacao_socio;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_URI}";
+		];
+	].
+
+<map:Socio_RFB> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT ID_SOCIO,DATA_INICIO_SOCIEDADE, ID_QUALIFICACAO_SOCIO, 'SOCIO_PESSOA_FISICA' AS TIPO FROM RFB_SOCIEDADE_COM_PESSOA_FISICA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Pessoa/{ID_SOCIO}";
+			rr:class cnpj:Socio, cnpj:Socio_RFB, foaf:Person;
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:inicio_participacao;
+		rr:objectMap [
+			rr:column "DATA_INICIO_SOCIEDADE";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_SOCIO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_qualificacao_socio;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_QUALIFICACAO_SOCIO}";
+		];
+    ].
+
+
+<map:Socio_RFB_PJ> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT ID_SOCIO,DATA_INICIO_SOCIEDADE, ID_QUALIFICACAO_SOCIO, 'SOCIO_PESSOA_JURIDICA' AS TIPO FROM RFB_SOCIEDADE_COM_HOLDING""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Socio/{ID_SOCIO}";
+			rr:class cnpj:Socio, cnpj:Socio_RFB, foaf:Organization;
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:inicio_participacao;
+		rr:objectMap [
+			rr:column "DATA_INICIO_SOCIEDADE";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_SOCIO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_qualificacao_socio;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_QUALIFICACAO_SOCIO}";
+		];
+    ].
+
+
+<map:Socio_RFB_PF> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT ID_SOCIO,DATA_INICIO_SOCIEDADE, ID_QUALIFICACAO_SOCIO, 'SOCIO_ESTRANGEIRO' AS TIPO FROM RFB_SOCIEDADE_COM_ESTRANGEIRO""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Agente/{ID_SOCIO}";
+			rr:class cnpj:Socio, cnpj:Socio_RFB, foaf:Person, cnpj:Estrangeiro;
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:inicio_participacao;
+		rr:objectMap [
+			rr:column "DATA_INICIO_SOCIEDADE";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_SOCIO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_qualificacao_socio;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Qualificacao/{ID_URI}";
+		];
+    ].
+
+<map:Person> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_PESSOA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Pessoa/{ID_PESSOA}";
+		rr:class foaf:Person,foaf:Agent, cnpj:Pessoa_RFB, cnpj:Pessoa, cnpj:Socio;
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:cpf;
+		rr:objectMap [
+			rr:column "CPF";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate foaf:name,rdfs:label;
+		rr:objectMap [
+			rr:column "NOME";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:faixa_etaria;
+		rr:objectMap [
+			rr:column "FAIXA_ETARIA"
+		];
+	].
+
+<map:Estrangeiro> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT * FROM RFB_ESTRANGEIRO""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Agente/{ID_SOCIO}";
+		rr:class foaf:Agent, cnpj:Estrangeiro;
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "NOME";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:e_estrangeiro;
+		rr:objectMap [
+			rr:constant "true";
+			rr:datatype xsd:boolean
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_pais;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Pais/{NOME_PAIS}";
+		];
+	].
+
+<map:Organization_has_special_situation> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT * FROM RFB_TEM_SITUACAO_ESPECIAL""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Empresa/{ID_EMPRESA}";
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_situacao_especial;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Situacao_Especial/{ID_SITUACAO_ESPECIAL}";
+		];
+	].
+
+<map:has_subsidiary> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT * FROM RFB_TEM_ESTABELECIMENTO""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Empresa/{ID_EMPRESA}";
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_estabelecimento, cnpj:tem_filial, cnpj:tem_filial;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Estabelecimento/{ID_ESTABELECIMENTO}";
+		];
+	].
+
+<map:has_partnership_fisic> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT * FROM RFB_TEM_SOCIEDADE_FISICA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Empresa/{ID_EMPRESA}";
+		
+
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_sociedade, cnpj:tem_sociedade_fisica;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Sociedade_PF/{ID_SOCIO}";
+		];
+	].
+
+
+<map:has_partnership_jID> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_TEM_SOCIEDADE_JURIDICA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Empresa/{ID_EMPRESA}";
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_sociedade, cnpj:tem_sociedade_juridica;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Sociedade_PJ/{ID_SOCIO}";
+		];
+	].
+
+<map:has_partnership_extrang> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_TEM_SOCIEDADE_ESTRANGEIRA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Empresa/{ID_EMPRESA}";
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_sociedade, cnpj:tem_sociedade_estrangeiro;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Sociedade_Estrangeiro/{ID_SOCIO}";
+		];
+	].
+
+<map:Option_SIMPLES> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT ID_OPCAO_SIMPLES,TIPO_SIMPLES,DATA_OPCAO_SIMPLES,DATA_EXCLUSAO_SIMPLES FROM RFB_OPCAO_SIMPLES""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Opcao_Simples/{ID_OPCAO_SIMPLES}";
+		rr:class cnpj:Opcao_SIMPLES;
+		
+	];
+    rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_OPCAO_SIMPLES";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tipo_opcao_SIMPLES;
+		rr:objectMap [
+			rr:column "TIPO_SIMPLES";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:data_opcao_SIMPLES;
+		rr:objectMap [
+			rr:column "DATA_OPCAO_SIMPLES";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:data_exclusao_SIMPLES;
+		rr:objectMap [
+			rr:column "DATA_EXCLUSAO_SIMPLES";
+			rr:datatype xsd:date
+		];
+	].
+
+
+<map:Special_Situation> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT ID_SITUACAO_ESPECIAL,DATA_INICIO_SIT_ESPECIAL,DESCRICAO FROM RFB_SITUACAO_ESPECIAL""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Situacao_Especial/{ID_SITUACAO_ESPECIAL}";
+		rr:class cnpj:Situacao_Especial;
+		
+	];
+    rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_SITUACAO_ESPECIAL";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:data_inicio_situacao_especial;
+		rr:objectMap [
+			rr:column "DATA_INICIO_SIT_ESPECIAL";
+			rr:datatype xsd:date
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:descricao_situacao_especial,rdfs:label;
+		rr:objectMap [
+			rr:column "DESCRICAO";
+			rr:datatype xsd:string
+		];
+	].
+
+<map:has_secondary_activity> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT * FROM RFB_TEM_ATIV_ECONOMICA_SECUNDARIA""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Estabelecimento/{CNPJ_COMPLETO}";
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_atividade_economica;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Atividade_Economica/{CNAE}"
+		];
+	].
+
+<map:Cadastral_Situation> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """SELECT * FROM RFB_SITUACAO_CADASTRAL""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Situacao_Cadastral/{ID_SITUACAO_CADASTRAL}";
+		rr:class cnpj:Situacao_Cadastral, cnpj:Situacao_Cadastral;
+	];
+    rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ID_SITUACAO_CADASTRAL";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:data_da_situacao_cadastral;
+		rr:objectMap [
+			rr:column "VAL_DATA_SITUACAO";
+			rr:datatype xsd:date
+		];
+	];
+    rr:predicateObjectMap [
+		rr:predicate cnpj:tipo_situacao;
+		rr:objectMap [
+			rr:column "SITUACAO";
+			rr:datatype xsd:string
+		];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_razao_situacao;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/RFB/Razao_Situacao_Cadastral/{ID_URI}"
+		];
+	].
+
+<map:Reason_Cadastral_Situation> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT * FROM RFB_RAZAO_SITUACAO_CADASTRAL""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Razao_Situacao_Cadastral/{ID_RAZAO_SITUACAO_CADASTRAL}";
+		rr:class cnpj:Razao_Situacao_Cadastral;
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ROTULO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:codigo_razao_situacao;
+		rr:objectMap [
+			rr:column "CODIGO_RAZAO_SITUACAO";
+			rr:datatype xsd:string
+		];
+	].
+
+<map:Address> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+                SELECT ID_ENDERECO, PAIS,LOGRADOURO,NUMERO,COMPLEMENTO,BAIRRO,CIDADE,ESTADO,CEP,
+			CASE ESTADO
+            WHEN 'ACRE' THEN 'AC'
+                            WHEN 'ALAGOAS' THEN 'AL'
+                            WHEN 'AMAPA' THEN 'AP'
+                            WHEN 'AMAZONAS' THEN 'AM'
+                            WHEN 'BAHIA' THEN 'BA'
+                            WHEN 'CEARA' THEN 'CE'
+                            WHEN 'ESPIRITO_SANTO' THEN 'ES'
+                            WHEN 'GOIAS' THEN 'GO'
+                            WHEN 'MARANHAO' THEN 'MA'
+                            WHEN 'MATO_GROSSO' THEN 'MT'
+                            WHEN 'MATO_GROSSO DO SUL' THEN 'MS'
+                            WHEN 'MINAS_GERAIS' THEN 'MG'
+                            WHEN 'PARA' THEN 'PA'
+                            WHEN 'PARAIBA' THEN 'PB'
+                            WHEN 'PARANA' THEN 'PR'
+                            WHEN 'PERNAMBUCO' THEN 'PE'
+                            WHEN 'PIAUI' THEN 'PI'
+                            WHEN 'RIO_DE_JANEIRO' THEN 'RJ'
+                            WHEN 'RIO_GRANDE_DO_NORTE' THEN 'RN'
+                            WHEN 'RIO_GRANDE_DO_SUL' THEN 'RS'
+                            WHEN 'RONDONIA' THEN 'RO'
+                            WHEN 'RORAIMA' THEN 'RR'
+                            WHEN 'SANTA_CATARINA' THEN 'SC'
+                            WHEN 'SAO_PAULO' THEN 'SP'
+                            WHEN 'SERGIPE' THEN 'SE'
+                            WHEN 'TOCANTINS' THEN 'TO'
+                            WHEN 'DISTRITO_FEDERAL' THEN 'DF'
+            END AS UF,
+            CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(CONCAT(PAIS,'-'),LOGRADOURO),'-'),NUMERO),'-'),COMPLEMENTO),'-'),BAIRRO),'-'),CIDADE),'-'),ESTADO),'-'),CEP) AS ENDERECO
+            FROM RFB_ENDERECO
+		""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Endereco/{ID_ENDERECO}";
+		rr:class cnpj:Endereco, cnpj:Endereco;
+		
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:numero;
+		rr:objectMap [
+			rr:column "NUMERO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:complemento;
+		rr:objectMap [
+			rr:column "COMPLEMENTO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ENDERECO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_estado, cnpj:tem_unidade_federativa;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Unidade_Federativa/{UF}"
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_pais;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Pais/{NOME_PAIS}"
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_cidade;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Cidade/{ID_CIDADE}"
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_bairro;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Bairro/{BAIRRO}"
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_logradouro;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Logradouro/{LOGRADOURO}"
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate vcard:postal-code, cnpj:cep ;
+		rr:objectMap [
+			rr:column "CEP";
+			rr:datatype xsd:string
+		];
+	].
+
+
+<map:AddressExt> a rr:TriplesMap;
+	rr:logicalTable [
+		rr:sqlQuery """
+			SELECT CEP, PAIS, CIDADE_EXTERIOR, ID_ENDERECO, 
+            CONCAT(CONCAT(PAIS,'-'),CIDADE_EXTERIOR) AS ENDERECO
+            FROM RFB_ENDERECO_EXTERIOR""";
+	];
+	rr:subjectMap [
+		rr:template "http://www.cnpj.data.br/resource/RFB/Endereco_Exterior/{ID_ENDERECO}";
+		rr:class cnpj:Endereco, cnpj:Endereco_Exterior;
+		
+	];
+    rr:predicateObjectMap [
+		rr:predicate rdfs:label;
+		rr:objectMap [
+			rr:column "ENDERECO";
+			rr:datatype xsd:string
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_pais;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Pais/{NOME_PAIS}"
+		];
+	];
+	rr:predicateObjectMap [
+		rr:predicate cnpj:tem_cidade;
+		rr:objectMap [
+			rr:template "http://www.cnpj.data.br/resource/DOMINIO/Cidade/{CITY_EXT}"
+		];
+	].
