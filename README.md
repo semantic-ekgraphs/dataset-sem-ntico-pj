@@ -30,3 +30,6 @@ A primeira etapa do script consiste no download de arquivos .zip. Em seguida, o 
 
 #[Link](scripts/triplify.py).
 
+# Dataset DSPJ (Recorte)
+[Link](https://www.mediafire.com/file/0avfwcr5kldjusd/dataset_semantico_cnpj.ttl/file).
+
