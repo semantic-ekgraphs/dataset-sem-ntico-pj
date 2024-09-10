@@ -12,16 +12,21 @@ Arquitetura geral adotada para construção do dataset do Cadastro Nacional de P
 # Script obtenção dos dados (Passo 0):
 A primeira etapa do script consiste no download de arquivos .zip. Em seguida, o conteúdo de cada arquivo é extraído no diretório data/<concept>, onde <concept> corresponde ao nome do conceito relacionado ao arquivo, e.g Paises.zip é extraído em data/paises/. Durante o processo, os arquivos são renomeados com a extensão .csv, pois, originalmente, eles são disponibilizados com o texto ”CSV” ao final do nome, sem a extensão adequada.
 
+[Link](scripts/step0.py).
 
 # Script Geração das Tabelas Bronze (Passo 1):
 
-[Link](scripts/step0.py).
+#[Link](scripts/step1.py).
 
 # Script Geração das Tabelas Silver (Passo 2):
 
+#[Link](scripts/step2.py).
 
 # Arquivo de Mapeamento
 
+#[Link](scripts/mapeamentos.ttl).
 
 # Script de Geração das triplas
+
+#[Link](scripts/triplify.py).
 
